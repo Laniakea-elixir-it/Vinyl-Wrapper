@@ -9,7 +9,7 @@
 "disease"=>"",		 #name	optional
 "similarD"=>"",          #file optional
 "lgenes"=>"",            #file optional
-"leQTL"=>"qfile",        #file   mandatory, but default value
+"leQTL"=>"",        	 #file   optional
 "keywords"=>"kfile",	 #file	mandatory, but default value
 "effects"=>"efile",	 #file	mandatory, but default value
 "disease_clinvar"=>8, 	 #numeric mandadory, but default value
@@ -21,13 +21,17 @@
 "scoreeQTL"=>1,		 #numeric mandatory, but default value
 "nind"=>5,		 #numeric  mandatory, but default value
 "scoreG"=>2,		 #numeric  mandatory, but default value
-"ifile"=>"inter_Hs.file", #file mandatory
-"scoreI"=>1,		 #numeric mandatory
+"ifile"=>"", 		 #file optional
+"scoreT"=>1,		 #numeric mandatory, but default value
+"scoreGW"=>1,		 #numeric mandatory but default value
+"scoreM"=>1,		 #numeric mandatory but default value
+"scoreR"=>1,		 #numeric mandatory but default value
+"scoreSP"=>1,		 #numeric mandatory but default value
 #####OUTPUT file#############################################
 "ofile"=>"final_res.csv", #file #OUTPUT #tabulare
-"ovcfile"=>"final_res.vcf"  #file #OUTOUT #vcf
+"ovcfile"=>"final_res.vcf",#,  #file #OUTOUT #vcf
+"osummary"=>"detailed_final_res.csv"
 );
-
 
 @arguments=@ARGV;
 for ($i=0;$i<=$#ARGV;$i+=2)
@@ -44,21 +48,25 @@ for ($i=0;$i<=$#ARGV;$i+=2)
 		warn("Valid arguments are @valid\n");
 		die("All those moments will be lost in time, like tears in rain.\n Time to die!\n");
 	}
-	#print "$act $val\n";
 }
 
 $ofile_name=$arguments{"ofile"};
 open(O,">$ofile_name");
 $ovcfile=$arguments{"ovcfile"};
 open(OV,">$ovcfile");
+$osummary_name=$arguments{"osummary"};
+open(OS,">$osummary_name");
+print OS "chr\tstart\tref\talt\tNhom\tNhet\tNind\tGene\tScoreG\tScoreCV\tScoreOth\tScoreAF\tScoreEff\tScoreSP\tScoreTF\tScoremir\tScoreREG\tScoreGWAS\tScoreNS\tScoreQTL\tScoreNi\tScoreT\n";
 
 $ifile=$arguments{"ifile"};
-die ("input file $ifile not found!\n") unless -e $ifile;
-open(IN,$ifile);
-while(<IN>)
+if (-e $ifile)
 {
-	($G1,$G2)=(split());
-	push (@{$interact{$G1}},$G2);
+	open(IN,$ifile);
+	while(<IN>)
+	{
+		#($G1,$G2)=(split());
+		#push (@{$interact{$G1}},$G2);
+	}
 }
 
 
@@ -72,7 +80,8 @@ if (-e $lgenes)
 	while(<IN>)
 	{
 		chomp;
-		$Lgenes{$_}=1;
+		$G=(split())[0];
+		$Lgenes{$G}=1;
 	}
 }
 
@@ -83,11 +92,13 @@ open(IN,$kfile);
 while(<IN>)
 {
 	chomp;
-	$specialKeys{$_}=1;	
+	($k,$category)=(split())[0,1];
+	$specialKeys{$k}=$category;
+	push (@{$annotKeys{$category}},$k);
 }
 
-
 $diseaseO=$arguments{"disease"} ? $arguments{"disease"} : "GinocchioValgoDellaLavandaiaZoppa";
+@diseaseO=split(/#/,$diseaseO);
 
 $sfile=$arguments{"similarD"};
 if (-e $sfile)
@@ -96,7 +107,9 @@ if (-e $sfile)
 	while(<IN>)
 	{
 		chomp;
-		push(@kw,$_)
+		$Sw=lc($_);
+		$Sw=~s/\s+//;
+		push(@kw,$Sw);
 	}
 }
 
@@ -127,15 +140,22 @@ $score_NS=$arguments{"score_NS"};
 $score_nIND=$arguments{"score_nIND"};
 $score_QTL=$arguments{"scoreeQTL"};
 $scoreG=$arguments{"scoreG"};
-$scoreI=$arguments{"scoreI"};
+$scoreM=$arguments{"scoreM"};
+$scoreT=$arguments{"scoreT"};
+$scoreR=$arguments{"scoreR"};
+$scoreGW=$arguments{"scoreGW"};
+$scoreSP=$arguments{"scoreSP"};
+
+#print O "CHR\tstart\tgene\tref\talt\tAC\tNhom\tNhet\tNind\tGene\tScoreCV\tScoreOth\tScoreAF\tScoreEff\tScoreNS\tScoreQTL\tScoreNi\tScoreT\n";
 print O "CHR\tstart\tgene\tref\talt\tAC\t";
+
 foreach $k (sort keys %specialKeys)
 {
 	print O "$k\t";
 }
-print O "VYNIL_score\n";
+print O "VINYL_score\n";
 
-%damaged=();
+
 open(IN,$file);
 
 #print "$gene_score $disease_HGMD $disease_clinvar $score_functional $score_AF $score_NS $score_eQTL $score_nIND\n";
@@ -147,6 +167,7 @@ while(<IN>)
 		next;
 	}
 	chomp();
+	$summary_line="";
 	@val=(split(/\t/));
 	$chr=$val[0];
 	$start=$val[1];
@@ -161,6 +182,7 @@ while(<IN>)
 	@samples=@val[9..$#val];
 	$Nhom=0;
 	$Nhet=0;
+	$summary_line.="$chr\t$start\t$b1\t$b2\t";
 	foreach $s (@samples)
 	{
 		$sid=(split(/\:/,$s))[0];
@@ -171,13 +193,14 @@ while(<IN>)
 		}elsif($sid=~/\//){
 			($h1,$h2)=(split(/\//,$sid))[0,1];
 		}
-		$Nhom++ if $h1==$h2;
-		$Nhet++ if $h1!=$h2;	
+		$Nhom++ if $h1==$h2 && $h1 !=0;
+		$Nhet++ if $h1!=$h2 && ($h1!=0 && $h2!=0) ;	
 	}
+	$summary_line.="$Nhom\t$Nhet\t";
 	$samples=(join("\t",@samples));
 	@terms=(split(/\;/,$annot));
 	$DIS=0;
-	if ($_=~/;AC=(\d+);/)
+	if ($_=~/;AC=(\d+);/ || $_=~/\tAC=(\d+);/)
 	{
 		$nind=$1;
 	}
@@ -185,53 +208,58 @@ while(<IN>)
 	{
 		$gene=$1;
 	}
+	$summary_line.="$nind\t$gene\t";
 	next if $nind==0;
 	$gene=(split(/\,/,$gene))[0];
 	$i=0;
 	%keep=();
 	$score=0;
-	$score+=$scoreG if $Lgenes{$gene};
-	if ($interact{$gene})
+	$G=0;
+	if ($Lgenes{$gene})
 	{
-		@interactors=@{$interact{$gene}};
-		#print "$gene @interactors\n";
-		foreach $interactor (@interactors)
-		{
-			print "$gene $interactor\n";
-			$score+=$scoreI if $Lgenes{$interactor};
-			print "adding $scoreI $score\n" if $Lgenes{$interactor};
-		}
+		$score+=$scoreG;
+		$G=$scoreG;
 	}
+	$summary_line.="$G\t";
 	foreach $t (@terms)
 	{
+		next unless $t;
 		($keep,$value)=(split(/\=/,$t))[0,1];
+		$value="." unless ($value);
 		$keep{$keep}=$value;
 	}
-	
 	if ($keep{"CLNSIG"} ne "."){
 		$scoreO=0;
         	$scoreC=0;
 		$add=0;
 		$add=$disease_clinvar  if ($keep{"CLNSIG"} eq "Pathogenic" || $keep{"CLNSIG"} eq "Pathogenic,_other,_risk_factor" || $keep{"CLNSIG"} eq "pathogenic" || $keep{"CLNSIG"} eq "Pathogenic/Likely_pathogenic" );
 		$add=$disease_clinvar/2  if ($keep{"CLNSIG"} eq "Likely_pathogenic" || $keep{"CLNSIG"} eq "Conflicting_interpretations_of_pathogenicity" || $keep{"CLNSIG"} eq "likely-pathogenic");
-		$add=-$disease_clinvar/2 if ($keep{"CLNSIG"} eq "Likely_benign"	||  $keep{"CLNSIG"} eq "Benign/Likely_benign");
-		$add=-$disease_clinvar if ($keep{"CLNSIG"} eq "Benign");
+		$add-=$disease_clinvar/4 if ($keep{"CLNSIG"} eq "Likely_benign"	||  $keep{"CLNSIG"} eq "Benign/Likely_benign");
+		$add-=$disease_clinvar/2 if ($keep{"CLNSIG"} eq "Benign");
 		@diseases=split(/\|/,$keep{"CLNDN"});
                 @databases=split(/\|/,$keep{"CLNDISDB"});
                 for ($i=0;$i<=$#diseases;$i++)
                 {
 			$dis=lc $diseases[$i];
 			$dat=$databases[$i];
-			if ($dis=~ /$diseaseO/)
-                       	{
-                        	if ($dat=~/OMIM/)
-                                {	
-					$scoreO=$add;
-                                }else{
-					$scoreC=$add;
-                                }
-				last;
-                        }else{
+			$MDO=0;
+			foreach $disOL (@diseaseO)
+			{
+				$disOL=lc $disOL;
+				if ($dis=~ /$disOL/)
+                       		{
+                        		if ($dat=~/OMIM/)
+                                	{	
+						$scoreO=$add;
+                                	}else{
+						$scoreC=$add;
+                                	}
+					$MDO=1;
+					last;
+				}
+			}
+                        if ($MDO==0)
+			{
                         	foreach $kv (@kw)
                                 {
 					if ($dis=~/$kv/)
@@ -247,75 +275,177 @@ while(<IN>)
                                  }
                         }
 		}
-		$score+=$scoreO+$scoreC;	
+		$score+=$scoreO+$scoreC;
+		$summary_line.="$scoreO\t$scoreC\t";
+		#duplicate this block for KW annotated 
+	}else{
+		$summary_line.="0\t0\t";
 	}
-	$esp=$keep{"esp6500siv2_ea"} eq "." ? 0 : $keep{"esp6500siv2_ea"};
-	$g1000=$keep{"1000g2015aug_all"} eq "." ? 0 : $keep{"1000g2015aug_all"} ;
-	$exac=$keep{"ExAC_NFE"} eq "." ? 0 : $keep{"ExAC_NFE"};
-	$gnomad=$keep{"gnomAD_exome_NFE"} eq "." ? 0 : $keep{"gnomAD_exome_NFE"};
-	@AF=($esp,$g1000,$exac,$gnomad);
-	@AF=sort{$a<=>$b} @AF;
-	$AF=$AF[-1];
-	# Variante molto rara 0.0001 2 punti
-	# Variante rara 0.004 1 punto
+	@AFkeys=@{$annotKeys{"AF"}};
+	$AF=0;
+	foreach $AFK (@AFkeys)
+	{
+		$LOC_af=$keep{$AFK} ? $keep{$AFK} : 0 ;
+		$LOC_af=0 if $LOC_af eq ".";
+		$AF=$LOC_af if $LOC_af>$AF;
+	}
+	$AF=$AF/20 if ($chr eq "chr1" && ($start==228557681 || $start==228527758 || $start==228525823));	
 	if ($AF<=$arguments{"AF"}) #0,00002
 	{
 		$score+=$score_AF;
+		$summary_line.="$score_AF\t";
 	}elsif($AF>$arguments{"AF"} && $AF<=$arguments{"AF"}*4){
 		$score+=$score_AF/2;
+		$summary_line.=$score_AF/2 ."\t";
+	}elsif($AF>$arguments{"AF"}*4 && $AF<=0.01){
+		$summary_line.="0\t";
 	}elsif($AF>0.01){	#commonSNP
 		$score-=$score_AF/2;
+		$summary_line.=-$score_AF/2 ."\t";
 	}
 	
-	$effectO=(split(/\;/,$keep{"ExonicFunc.refGene"}))[0];
-	if ($effects{$effectO})
+	@EFFkeys=@{$annotKeys{"Effect"}};
+	$EFFS=0;
+	foreach $EFF (@EFFkeys)
 	{
-		 $damaged{$gene}{"D"}++;
-		 $score+=$score_functional;
+		$effectO=(split(/\;/,$keep{$EFF}))[0];
+		$score+=$score_functional if $effects{$effectO};
+		$EFFS+=$score_functional if $effects{$effectO};
 	}
-	#print "Exon " . $keep{"ExonicFunc.refGene"}. " $score\n";
-	if ($keep{"ExonicFunc.refGene"} eq "nonsynonymous_SNV"){
-		
-		if ($keep{"MetaSVM_pred"} eq "D" && $keep{"CADD_raw"}>=5)
+	$summary_line.="$EFFS\t";
+
+	@SPKeys=@{$annotKeys{"Splice"}};
+        $SPs=0;
+	foreach $SPk (@SPKeys)
+	{
+		next if ($keep{$SPk} eq ".");
+		if($keep{$SPk}>0.6)
+		{
+			$score+=$scoreSP/($#SPKeys+1);
+			$SPs+=$scoreSP/($#SPKeys+1);
+		}
+	}
+	$summary_line.="$SPs\t";
+
+	$TFscore=0;
+	@TFBSkeys=@{$annotKeys{"tfbs"}};
+	foreach $T (@TFBSkeys)
+	{
+		$score+=$scoreT if $keep{$T} ne ".";
+		$TFscore+=$scoreT if $keep{$T} ne ".";
+	}
+	$summary_line.="$TFscore\t";
+	
+	$mirscore=0;
+	@mirkeys=@{$annotKeys{"mirna"}};
+        foreach $M (@mirkeys)
+        {
+                $score+=$scoreM if $keep{$M} ne ".";
+        	$mirscore+=$scoreM if $keep{$M} ne ".";
+	}
+	$summary_line.="$mirscore\t";	
+
+	$REGscore=0;
+	@REGkeys=@{$annotKeys{"Reg"}};
+        foreach $R (@REGkeys)
+        {
+                $score+=$scoreR if $keep{$R} ne ".";
+		$REGscore+=$scoreR if $keep{$R} ne ".";
+        }
+	$summary_line.="$REGscore\t";
+	
+ 	$GWscore=0; 
+	if ($keep{"GWAS"} ne ".")
+	{
+		$GW=$keep{"GWAS"};
+		$GW=lc($GW);
+		@Gs=(split(/\|/,$GW));
+		foreach $Gword (@Gs)
+		{
+			next if $Gword eq " ";
+			$Gword=~s/-/ /g;
+			foreach $kv (@kw)
+                	{
+				if ($Gword=~/$kv/)
+				{
+					$score+=$scoreGW;
+					$GWscore+=$scoreGW;
+					last;
+				}
+			}
+		}
+
+	}
+	$summary_line.="$GWscore\t";
+
+	$NSa=0;
+	#print "Exon " . $keep{"ExonicFunc.refGene"}. " $score\n";			#modify here to use kwords in conf file
+	if ($keep{"ExonicFunc.refGene"} eq "nonsynonymous_SNV")
+	{
+		$ND=0;
+		@NStools=@{$annotKeys{"NStool"}};
+		foreach $t (@NStools)
+		{
+			$NSscore=$keep{$t};
+			next if $NSscore eq ".";
+			$NSscore="D" if $t=~/CADD/ && $NSscore>=5;
+			$ND++ if $NSscore eq "D";
+		}
+
+		if ($ND==$#NStools+1)
 		{
 			$score+=$score_NS;
-			$damaged{$gene}{"D"}++;
-		}elsif($keep{"MetaSVM_pred"} eq "D" && $keep{"CADD_raw"}<5){
-			$score+=$score_NS/2;
-		}elsif($keep{"MetaSVM_pred"} ne "D" && $keep{"CADD_raw"}>=5){
-                        $score+=$score_NS/2;
-                }
+			$NSa+=$score_NS;
+		}elsif($ND>=($#NStools+1)/2){
+			$score+=$score_NS/(($#NStools+1)/2);
+			$NSa+=$score_NS/(($#NStools+1)/2);
+		}elsif($ND==0){
+                        $score+=$score_NS/($#NStools+1); #da commentare. o NS/4
+			$NSa+=$score_NS/($#NStools+1);
+		}
 	}
-	#print "NS ". $keep{"ExonicFunc.refGene"} . " $score\n";
-	$damaged{$gene}{"tot"}++;
-	if ($keep{"Func.refGene"} eq "splicing"){
-		$score+=$score_functional;
-	}
-	#print "SPL ". $keep{"Func.refGene"} . " $score\n";
+	$summary_line.="$NSa\t";
+	$iQTL=0;
 	foreach $QTL  (keys %Qlist)
 	{
 		next unless $keep{$QTL};
-		$score+=$score_QTL if ($keep{$QTL} ne ".");
+		if ($keep{$QTL} ne ".")
+		{
+			$score+=$score_QTL; 
+			$iQTL+=$score_QTL; #if ($keep{$QTL} ne ".");
+		}
+		
 	}
+	$summary_line.="$iQTL\t";
 	if ($nind>=$arguments{"nind"} && $AF<=0.01)
 	{
 		$score+=$score_nIND;
+		$summary_line.="$score_nIND\t";
 	}elsif($nind>=$arguments{"nind"}/2 && $nind<$arguments{"nind"} && $AF<=0.01){
 		$score+=$score_nIND/2;
+		$summary_line.=$score_nIND/2 ."\t";
+	}else{
+		$summary_line.="0\t";
 	}
 	chomp();
-	#$scores{$score}++;
 	chop($_);
 	$outL="";
+	$IS_MAL=0;
 	foreach $k (sort keys %specialKeys)
 	{
-		 #die("$k\n") unless $keep{$k};
+		unless($keep{$k})
+		{
+			#warn("Malformed $_\n");
+			warn("please check $k is missing\n");	
+			$IS_MAL=1;
+		}
 		$outL.="$keep{$k}\t";
 	}
-	$score=$score/2 if $arguments{"AD"} eq "T" && $Nhom==0;
+	next if $IS_MAL==1;
+	$score=$score/2 if $arguments{"AD"} eq "F" && $Nhom==0;
 	$score=$score/2 if $arguments{"XL"} eq "T" && $chr ne "chrX";
+	$summary_line.="$score\n";
 	print O "$chr\t$start\t$gene\t$b1\t$b2\t$nind\t$outL$score\n"; #if $score>=12 || $DIS==1;
-	#        $chr=$val[0];
-
 	print OV "$chr\t$start\t$pstart\t$b1\t$b2\t$qscore\t$pb2\t$annot;VINYL_score=$score\t$gt\t$samples\n";
+	print OS "$summary_line";
 }
