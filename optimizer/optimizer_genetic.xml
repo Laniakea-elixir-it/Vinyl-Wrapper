@@ -1,0 +1,170 @@
+<tool id="optimizer" name="optimizer" version="1">
+  <description> VINYL score optimizer applies genetic algorithms to identify the best scoring system (i.e. scoring weights) for VINYL</description>
+  <requirements>
+    <requirement type="package" >perl</requirement>
+    <requirement type="package" >r-base</requirement>
+    <requirement type="package" >r-genalg</requirement>
+  </requirements>
+  <command> <![CDATA[
+	ln -s $__tool_directory__/score_complete_alt_M.pl 2>$log &&
+	ln -s $__tool_directory__/GENEO_VINYL.R 2>> $log &&
+	ln -s $fileR fileR &&
+	ln -s $fileC fileC &&
+	
+
+
+
+	perl $__tool_directory__/optimizer_genetic.pl
+
+
+	###INPUT VCF FILE	
+	
+	-fileR fileR -fileC fileC
+
+	#if $qfile
+        -leQTL $qfile
+        #end if
+        
+	#if $similarD
+        -similarD $similarD
+        #end if
+	
+	#if $disease
+        -disease $disease
+        #end if
+	
+	#if $lgenes
+        -lgenes $lgenes
+        #end if
+	 
+	#if $kfile      
+        -keywords $kfile
+        #else
+        -keywords $__tool_directory__/kfile 
+        #end if
+	
+	#if $efile
+        -effects $efile
+	#else
+	-effects $__tool_directory__/efile
+        #end if
+	
+
+	###RANGE VALUES
+	-disease_clinvar $score_DB_MIN:$score_DB_MAX
+	
+	-score_AF $score_RV_MIN:$score_RV_MAX
+	
+	-score_functional $score_FE_MIN:$score_FE_MAX
+	
+	-score_NS $score_NS_MIN:$score_NS_MAX
+	
+	-score_nIND $score_OR_MIN:$score_OR_MAX
+	
+	-AF $AF 
+	
+	-scoreeQTL $score_eQ_MIN:$score_eQ_MAX	
+	
+	-scoreG $score_AD_MIN:$score_AD_MAX
+
+	-scoreT $score_T_MIN:$score_T_MAX
+	
+	-scoreGW $score_GW_MIN:$score_GW_MAX
+
+	-scoreR $score_R_MIN:$score_R_MAX
+
+	-scoreM $score_M_MIN:$score_M_MAX
+	
+	-scoreSP $score_SP_MIN:$score_SP_MAX
+	
+	-nind $nind
+	
+	-AD $AD 
+	
+	-XL $XL 
+	
+	###OUTPUT
+	-ofile $ofile
+ 	
+	2>>$log
+
+
+
+    ]]>
+  </command>
+  <inputs>
+    <param format="vcf" name="fileR" type="data" label="AffectedVCF" help="VCF files of genetic variants for the population of affected individuals"/>
+    <param format="vcf" name="fileC" type="data" label="UnaffectedVCF" help="VCF files of genetic variants for the population of unaffected individuals"/>
+<!-- default values-->
+    <param name="score_DB_MIN" value="1" type="float" min="1"  max="20" label="score_DB_MIN" help="Minimum value for the Pathogenicity score component"/> 
+    <param name="score_DB_MAX" value="20" type="float" min="1"  max="20" label="score_DB_MAX" help="Maximum value for the Pathogenicity score component"/> 
+    <param name="score_RV_MIN" value="1" type="float" min="1"  max="20" label="score_RV_MIN" help="Minum value for the Allele Frequency score component"/> 
+    <param name="score_RV_MAX" value="20" type="float" min="1"  max="20" label="score_RV_MAX" help="Maximum value for the Allele Frequency score component"/>
+    <param name="score_FE_MIN" value="1" min="1"  max="20" type="float" label="score_FE_MIN" help="Minimum value for the Functional effect score component"/>
+    <param name="score_FE_MAX" value="20" min="1"  max="20" type="float" label="score_FE_MAX" help="Maximum value for the Functional effect score component"/>
+    <param name="score_NS_MIN" value="1" min="1" max="20" type="float" label="score_NS_MIN" help="Minum value for component of the score associated with Predicted disruptive non-synonymous variants"/> 
+    <param name="score_NS_MAX" value="20" min="1" max="20" type="float" label="score_NS_MAX" help="Maximum value for the score component of the score associated with Predicted disruptive non-synonymous variants"/> 
+    <param name="score_OR_MIN" value="1" type="float" min="1"  max="20" label="score_OR_MIN" help="Minimum value for the component of the score associated with over-representation of the variant in the dataset (Rare variants associated to more than N individuals)  "/> 
+    <param name="score_OR_MAX" value="20" type="float" min="1"  max="20" label="score_OR_MAX" help="Maximum value for the component of associated with over-representation of the variant in the dataset (Rare variants associated to more than N individuals)" /> 
+    <param name="score_eQ_MIN" value="1" min="1"  max="20" type="float" help="Minimum value for the component of the  score associated with eQTLs"/> 
+    <param name="score_eQ_MAX" value="20" min="1"  max="20" type="float" help="Maximum value for the component of the  score associated with eQTLs"/> 
+    <param name="score_AD_MIN" value="1" min="1"  max="20" type="float" label="score_AD_MIN" help="Minimum value for the component of the score associated with genes implicated in the pathological condition or associated with similar phenotypes"  /> 
+    <param name="score_AD_MAX" value="20" min="1"  max="20" type="float" label="score_AD_MAX" help="Minimum value for the component of the score associated with genes implicated in the pathological condition or associated with similar phenotypes" />
+    <param name="score_T_MIN" value="1" min="1"  max="20" type="float" label="score_T_MIN" help="Minimum value for the component of the score associated with TFBS"/>
+    <param name="score_T_MAX" value="20" min="1"  max="20" type="float" label="score_T_MAX" help="Maximum value for the component of the score associated with TFBS"/>
+    <param name="score_GW_MIN" value="1" min="1"  max="20" type="float" label="score_GW_MIN" help="Minimum value for component of the score for SNPs associated to relevant phenotypic traits according to GWAS studies"/>
+    <param name="score_GW_MAX" value="20" min="1"  max="20" type="float" label="score_GW_MAX" help="Maximum value for component of the score for SNPs associated to relevant phenotypic traits according to GWAS studies"/>
+    <param name="score_M_MIN" value="1" min="1"  max="20" type="float" label="score_M_MIN" help="Minimum score for SNPs associated with miRNA binding sites"/>
+   <param name="score_M_MAX" value="20" min="1"  max="20" type="float" label="score_M_MAX" help="Maximum score for SNPs associated with miRNA binding sites"/> 
+   <param name="score_R_MIN" value="1" min="1"  max="10" type="float" label="score_R_MIN" help="Minimum value for the component of the score associated with regulatory elements SNPs"/>
+    <param name="score_R_MAX" value="20" min="1"  max="20" type="float" label="score_R_MAX" help="Maximum value for the component of the score associated with regulatory elements SNPs"/>
+  <param name="score_SP_MIN" value="1" min="1"  max="10" type="float" label="score_SP_MIN" help="Minimum value for the component of the score associated with SNPs predicted to have highly disruptive effects on splice-sites"/>
+    <param name="score_SP_MAX" value="20" min="1"  max="20" type="float" label="score_SP_MAX" help="Maximum value for the component of the score associated with SNPs predicted to have highly disruptive effects on splice-sites"/>
+
+ 
+    <param name="nind" value="5"  type="integer" label="Nind Cutoff" help="Cut off value for the Over-reprentation score. The value specified by scoreNind is addeded to the pathogenicity score only for variants that have an allele count in the cohort equal to or greater than this value. As a rule of tumb, this should be set to approximately 5-10% of the size of your cohort of individuals"/>
+   <param name="AF" value="0.0001" min="0" max="1" type="float" label="AlleleFrequCutOff" help="Cut off value for the Allele frequency score. The value specified by scoreAF is addeded to the pathogenicity score only for variants that have an allele frequency lower or equal to this cut-off value " />
+   <param name="AD" type="text" value="T" label="Autosomic Dominant" help="If set to T (TRUE) VYNIL assumes an Autosomic Dominant model of inherithance of the disease. If FALSE (F) the model is Autosomic Recessive.  Valid values are T=TRUE or F=FALSE Default is T"/>
+    <param name="XL" type="text" value="F" label="X-linked" help="When T (TRUE) an X-linked model of Disease inheritance is used. Valid values are T=TRUE and F=FALSE. Default is FALSE" />
+
+ 
+<!--optional values -->
+    <param format="txt" name="kfile" type="data" optional="true" label="keywords file" help="This is a configuration file that specifies the keywords that are used by VINYL for the extraction of relevant annoations from the VCF file and for the computation of the pathogenicity score. Names of these keywords need to match exactly names as used by Annovar. A file with default values is incorporated in VINYL. Custom files can be provided (see Manual for the format)  "/>
+    <param format="txt" name="efile" type="data" optional="true" label="Functional Effects files" help="This configuration file specifies the predicted functional effects for which the value specified by the score_functional parameter is be added to the global pathogenicity score. See above for further explanations."/>
+    <param format="txt" name="qfile" type="data" optional="true" label="eQTLlist" help="This configuration file provides a list of tissues that are used by VINYL for the annotation of eQTL and the scoring of variants associated with eQTLs in that tissue. Names of tissues need  match names used in the GTEx project. See the manual for more details about the format of the file "/>   
+    <param name="disease" type="text" optional="true" label="Disease" help="Name or functional description of the pathological condition. This parameter is used to perform a soft check of the annotation in Clinvar and to identify variants that have been previously implicated in the disease. Highly recommended.  "/>
+    <param name="similarD" type="data" format="txt" optional="true" label="Symptoms" help="This file provides a list of symptoms or related keywords that are used by VINYL to screen the Annotations of Clinvar and identify variants that have been implicated in similar pathologies or phenotype. See the manual for a full description of the file format. User are strongly encouraged to provide this file "/>
+    <param name="lgenes" type="data" format="txt" optional="true" label="List of Disease Genes" help="This file provides a list of genes that have been previously implicated in the disease of in similar pathological conditions. Users are highly recommended to provide this type of information. A full desciption of the format of this file is found in the VYNIL manual" />
+
+
+<!--others-->
+
+  </inputs>
+  <outputs>
+    <data format="txt" name="log" label="${tool.name} on ${on_string}: log file "/>
+    <data format="tsv" name="ofile" label="${tool.name} on ${on_string}: tsv "/>
+  </outputs>
+  <stdio>
+  </stdio>
+  <tests>
+      <test>
+      </test>
+  </tests>
+  <help>
+**What it does**
+VINYL is a software designed to assist in variant prioritization in medium-large cohort of patients. The program computes an aggregate score, which is based on an extensive collection of publicly available annotations, in order to identify/prioritize variants that are likely to be pathogenic or have a clinical significance. In order to derive an optimal cut off score for the variants, VINYL uses a strategy based on "survival analysis", where the pathogenicity score distribution of the affected individuals is compared with a matched cohort of unaffected individuals.
+To facilitate the usage of the software, VINYL is provided in the form of a public Galaxy instance, based on the Laniakea suite. To ensure the maximum level of security, VINYL uses Encrypted data volumes for the storage of the data.
+
+
+
+**Important Usage Note**
+This wrapper provides the module of VINYL that perform score optimization. Two input VCF files need to be provided, one containing genetic variants from a cohort of affected individuals, and one from a population of unaffected controls. If the latter is not available to you, you can take advantage of one of the several VCF files of genetic variants associated with geographic human populations that are available in VINYL at XXX. Please be aware that ideally you should select the population that is more closely related to your cohort of patients. If you have performed a targeted resequencing study, please see the manual for instruction on how to pre-process the VCF files included in VINYL.
+  
+See the "survival" and the "VINYL" utilities in the for the delineation of the  score cut-off value and the calculation of individual scores from a single vcf file.
+A complete workflow that automates the exectuion of VINYL is avaiable at XXX
+
+
+  </help>
+  <citations>
+  </citations>
+</tool>
