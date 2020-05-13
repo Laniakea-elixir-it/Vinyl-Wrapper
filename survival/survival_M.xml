@@ -32,8 +32,11 @@
   <stdio>
   </stdio>
   <tests>
-      <test>
-      </test>
+    <test>
+      <param name="input_affected" value="ALL_DCM.csv" ftype="csv" />
+      <param name="input_unaffected" value="test_DCM.csv" ftype="csv" />
+      <output format="tabular" name="output" file="output_survival_test" />
+    </test>
   </tests>
   <help>
 **What it does**

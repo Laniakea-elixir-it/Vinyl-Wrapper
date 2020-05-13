@@ -28,8 +28,12 @@
   <stdio>
   </stdio>
   <tests>
-      <test>
-      </test>
+    <test>
+      <param name="input_fileR" value="R.csv" ftype="csv" />
+      <param name="input_fileT" value="T.csv" ftype="csv" />
+      <param name="cutoff" value="8" min="1" type="float" />
+      <output name="output" value="boxplot_output_test.pdf" ftype="pdf" />
+    </test>
   </tests>
   <help>
 **What it does**

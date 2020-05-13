@@ -35,8 +35,11 @@
   <stdio>
   </stdio>
   <tests>
-      <test>
-      </test>
+    <test>
+      <param name="input_affected" value="Galaxy28-[Affected_vinyl_scored.vcf].vcf" ftype="vcf" />
+      <param name="input_unaffected" value="Galaxy25-[Healthy_vinyl_scored.vcf].vfc" ftype="vcf" />
+      <output name="output" value="PCA_output_test.png" ftype="png" />
+    </test>
   </tests>
   <help>
 **What it does**
