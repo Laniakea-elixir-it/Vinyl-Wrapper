@@ -36,9 +36,9 @@
   </stdio>
   <tests>
     <test>
-      <param name="input_affected" value="Galaxy28-[Affected_vinyl_scored.vcf].vcf" ftype="vcf" />
-      <param name="input_unaffected" value="Galaxy25-[Healthy_vinyl_scored.vcf].vfc" ftype="vcf" />
-      <output name="output" value="PCA_output_test.png" ftype="png" />
+      <param name="fileR" value="Galaxy28-[Affected_vinyl_scored.vcf].vcf" ftype="vcf" />
+      <param name="fileC" value="Galaxy25-[Healthy_vinyl_scored.vcf].vfc" ftype="vcf" />
+      <output name="ofile" file="PCA_output_test.png" ftype="png" />
     </test>
   </tests>
   <help>

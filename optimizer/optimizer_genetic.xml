@@ -148,8 +148,8 @@
   </stdio>
   <tests>
     <test>
-      <param name="input_fileR" value="R.csv" ftype="csv" />
-      <param name="input_fileT" value="T.csv" ftype="csv" />
+      <param name="fileR" value="R.csv" ftype="csv" />
+      <param name="fileC" value="T.csv" ftype="csv" />
       <!-- default values-->
       <param name="score_DB_MIN" value="1" type="float" min="1"  max="20" />
       <param name="score_DB_MAX" value="20" type="float" min="1"  max="20" />
@@ -179,7 +179,7 @@
       <param name="AF" value="0.0001" min="0" max="1" type="float" />
       <param name="AD" type="text" value="T" />
       <param name="XL" type="text" value="F" />
-      <output name="output" value="optimizer_output_test.tsv" ftype="tsv" />
+      <output name="ofile" file="optimizer_output_test.tsv" ftype="tsv" />
     </test>
   </tests>
   <help>

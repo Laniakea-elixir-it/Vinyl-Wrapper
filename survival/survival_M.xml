@@ -33,9 +33,9 @@
   </stdio>
   <tests>
     <test>
-      <param name="input_affected" value="ALL_DCM.csv" ftype="csv" />
-      <param name="input_unaffected" value="test_DCM.csv" ftype="csv" />
-      <output format="tabular" name="output" file="output_survival_test" />
+      <param format="tabular,csv" name="csv1" value="ALL_DCM.csv" ftype="csv" />
+      <param format="tabular,csv" name="csv2" value="test_DCM.csv" ftype="csv" />
+      <output name="tabular" file="output_survival_test" ftype="tabular" />
     </test>
   </tests>
   <help>

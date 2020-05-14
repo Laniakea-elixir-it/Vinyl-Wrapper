@@ -102,8 +102,12 @@
   <stdio>
   </stdio>
   <tests>
-      <test>
-      </test>
+    <test>
+      <param name="VcfFile" value="RIS.vcf" ftype="vcf" />
+      <output name="ofile" file="VINYL_output1_test" ftype="tabular" />
+      <output name="ovcfile" file="VINYL_output2_test.vcf" ftype="vcf" />
+      <output name="osummary" file="VINYL_output3_test" ftype="tabular" />
+    </test>
   </tests>
   <help>
 **What it does**
