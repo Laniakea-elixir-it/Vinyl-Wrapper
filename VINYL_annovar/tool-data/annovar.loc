@@ -1,0 +1,85 @@
+
+#location of humandb the fields are tab delimited 
+db	location	/cvmfs/elixir-italy.covacs.refdata/annovardb/humandb_vinyl
+#db	location	/annovardb/HumanDBAnnovar	
+
+
+#definition of present db name + type(gene_ann, region, filter ) + assembly of the genome the fields are tab delimited
+#gene_ann
+refGene	gene_ann	hg19
+#filter	
+dbnsfp35a	filter	hg19
+esp6500siv2_ea	filter	hg19
+exac03nontcga	filter	hg19
+gnomad211_exome	filter	hg19
+kaviar_20150923	filter	hg19
+hrcr1	filter	hg19
+avsnp150	filter	hg19
+clinvar_20190305	filter	hg19
+abraom	filter	hg19
+1000g2015aug_all	filter	hg19
+gnomad211_genome	filter	hg19
+gme	filter	hg19
+dbscsnv11	filter	hg19
+#for more info about the databases http://annovar.openbioinformatics.org/en/latest/user-guide/download/#-for-filter-based-annotation
+#eqtl
+Adipose_Subcutaneous	eqtl	hg19
+Adipose_Visceral_Omentum	eqtl	hg19
+Adrenal_Gland	eqtl	hg19
+Artery_Aorta	eqtl	hg19
+Artery_Coronary	eqtl	hg19
+Artery_Tibial	eqtl	hg19
+Brain_Amygdala	eqtl	hg19
+Brain_Anterior_cingulate_cortex_BA24	eqtl	hg19
+Brain_Caudate_basal_ganglia	eqtl	hg19
+Brain_Cerebellar_Hemisphere	eqtl	hg19
+Brain_Cerebellum	eqtl	hg19
+Brain_Cortex	eqtl	hg19
+Brain_Frontal_Cortex_BA9	eqtl	hg19
+Brain_Hippocampus	eqtl	hg19
+Brain_Hypothalamus	eqtl	hg19
+Brain_Nucleus_accumbens_basal_ganglia	eqtl	hg19
+Brain_Putamen_basal_ganglia	eqtl	hg19
+Brain_Spinal_cord_cervical_c-1	eqtl	hg19
+Brain_Substantia_nigra	eqtl	hg19
+Breast_Mammary_Tissue	eqtl	hg19
+Cells_EBV-transformed_lymphocytes	eqtl	hg19
+Cells_Transformed_fibroblasts	eqtl	hg19
+Colon_Sigmoid	eqtl	hg19
+Colon_Transverse	eqtl	hg19
+Esophagus_Gastroesophageal_Junction	eqtl	hg19
+Esophagus_Mucosa	eqtl	hg19
+Esophagus_Muscularis	eqtl	hg19
+Heart_Atrial_Appendage	eqtl	hg19
+Heart_Left_Ventricle	eqtl	hg19
+Liver	eqtl	hg19
+Lung	eqtl	hg19
+Minor_Salivary_Gland	eqtl	hg19
+Muscle_Skeletal	eqtl	hg19
+Nerve_Tibial	eqtl	hg19
+Ovary	eqtl	hg19
+Pancreas	eqtl	hg19
+Pituitary	eqtl	hg19
+Prostate	eqtl	hg19
+refGene	eqtl	hg19
+Skin_Not_Sun_Exposed_Suprapubic	eqtl	hg19
+Skin_Sun_Exposed_Lower_leg	eqtl	hg19
+Small_Intestine_Terminal_Ileum	eqtl	hg19
+Spleen	eqtl	hg19
+Stomach	eqtl	hg19
+Testis	eqtl	hg19
+Thyroid	eqtl	hg19
+Uterus	eqtl	hg19
+Vagina	eqtl	hg19
+Whole_Blood	eqtl	hg19
+#tracce personalizzate
+ENSEMBLReg	custom	hg19
+ENSmiRNA	custom	hg19
+ENSTFBS	custom	hg19
+GWAS	filter	hg19
+nCER90	custom	hg19
+nCER95	custom	hg19
+ORegAnno_REGULATORY_P	filter	hg19
+ORegAnno_REGULATORY_R	custom	hg19
+ORegAnno_REGULATORY_TFBS	custom	hg19
+ORegmiRNA	custom	hg19

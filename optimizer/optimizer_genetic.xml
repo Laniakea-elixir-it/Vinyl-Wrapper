@@ -6,8 +6,8 @@
     <requirement type="package" >r-genalg</requirement>
   </requirements>
   <command> <![CDATA[
-	ln -s $__tool_directory__/score_complete_alt_M.pl 2>$log &&
-	ln -s $__tool_directory__/GENEO_VINYL.R 2>> $log &&
+	ln -s $__tool_directory__/score_complete_alt_M.pl  &&
+	ln -s $__tool_directory__/GENEO_VINYL.R  &&
 	ln -s $fileR fileR &&
 	ln -s $fileC fileC &&
 	
@@ -85,8 +85,9 @@
 	
 	###OUTPUT
 	-ofile $ofile
+
+        2>>$log
  	
-	2>>$log
 
 
 
@@ -141,8 +142,8 @@
 
   </inputs>
   <outputs>
-    <data format="txt" name="log" label="${tool.name} on ${on_string}: log file "/>
     <data format="tsv" name="ofile" label="${tool.name} on ${on_string}: tsv "/>
+    <data format="txt" name="log" label="${tool.name} on ${on_string}: log file "/>
   </outputs>
   <stdio>
   </stdio>

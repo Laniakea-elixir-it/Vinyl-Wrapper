@@ -30,6 +30,10 @@
     <data format="tabular" name="tabular" label="${tool.name} on ${on_string}: tabular output " help="Table with results of the survival analysis."/>
   </outputs>
   <stdio>
+     <regex match="error"
+            source="stdout"
+            level="fatal"
+            description="Unknown error encountered" />
   </stdio>
   <tests>
     <test>

@@ -96,8 +96,42 @@
     <regex match=".*" source="both" level="log" description="tool progress"/>
   </stdio>
   <tests>
-      <test>
-      </test>
+    <test>
+      <param name="assembly" value="hg19" type="select" label="Genome_assembly" multiple="no" />
+      <param name="NA" type="text" value="." label="substitute NA with:"/>
+      <param name="input1" value="Galaxy2-[Sorrentino_etal2017.vcf].vcf" ftype="vcf" type="data" label="VCF" help="vcf input file"/>
+      <param name="gene_anns" value="hg19" type="select" multiple="yes" optional="true">
+        <options from_data_table="annovar">
+          <filter type="param_value" ref="assembly" column="2" />
+          <filter type="static_value" name="type" value="gene_ann" column="1"/>
+          <filter type="sort_by" column="0"/>
+        </options>
+      </param>
+      <param name="filters" type="select" multiple="yes" optional="true">
+        <options from_data_table="annovar">
+          <filter type="param_value" ref="assembly" column="2" />
+          <filter type="static_value" name="type" value="filter" column="1"/>
+          <filter type="sort_by" column="0"/>
+        </options>
+      </param>
+      <param name="eqtl" value="hg19" type="select" multiple="yes" optional="true">
+        <options from_data_table="annovar">
+          <filter type="param_value" ref="assembly" column="2" />
+          <filter type="static_value" name="type" value="eqtl" column="1"/>
+          <filter type="sort_by" column="0"/>
+       </options>
+     </param>
+     <param name="custom" type="select" multiple="yes" optional="true">
+       <options from_data_table="annovar">
+         <filter type="param_value" ref="assembly" column="2" />
+         <filter type="static_value" name="type" value="custom" column="1"/>
+         <filter type="sort_by" column="0"/>
+       </options>
+     </param>
+     <param name="location_db.fields.path" value="/cvmfs/elixir-italy.covacs.refdata/annovardb/humandb_vinyl" type="select" display="radio"/>
+     <output name="output" file="annovarAnnotatio.vcf" ftype="vcf" />
+     <output name="output2" file="annovarAnnotation.txt" ftype="txt" />
+   </test>
   </tests>
   <help>
 **What it does**

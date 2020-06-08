@@ -42,7 +42,7 @@
 	-ofile $ofile 
 	-ovcfile $ovcfile
 	-osummary $osummary
-	2>$log
+        2>$log
 ##parametri di input:
 ##
 ##"vcf"=>"",              #file   mandatory, provided at runtime

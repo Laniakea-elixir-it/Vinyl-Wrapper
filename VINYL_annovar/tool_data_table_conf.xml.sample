@@ -1,0 +1,5 @@
+<!-- Location of annovar_elixir loc file -->
+<table name="annovar" comment_char="#">
+	<columns> value, type, path</columns>
+	<file path="tool-data/annovar.loc" />
+</table>

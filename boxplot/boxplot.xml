@@ -12,7 +12,6 @@
 	###OUTPUT
 	$ofile
  	
-	2>>$log
     ]]>
   </command>
   <inputs>
@@ -22,10 +21,13 @@
 
   </inputs>
   <outputs>
-    <data format="txt" name="log" label="${tool.name} on ${on_string}: log file "/>
     <data format="pdf" name="ofile" label="${tool.name} on ${on_string}: pdf "/>
   </outputs>
   <stdio>
+     <regex match="error"
+            source="stdout"
+            level="fatal"
+            description="Unknown error encountered" />
   </stdio>
   <tests>
     <test>
