@@ -103,10 +103,14 @@
   </stdio>
   <tests>
     <test>
-      <param name="VcfFile" value="RIS.vcf" ftype="vcf" />
-      <output name="ofile" file="VINYL_output1_test" ftype="tabular" />
+      <param name="VcfFile" value="'Galaxy1-[Galaxy8-[TSI_annotated_vcf].vcf].vcf'" ftype="vcf" />
+      <param name="lgenes" value="'Galaxy3-[DCM_genes].tabular'" ftype="tabular" />
+      <param name="qfile" value="'Galaxy7-[qfile].txt'" ftype="txt" />
+      <param name="kfile" value="'Galaxy5-[kfile3].txt'" ftype="txt" />
+      <param name="efile" value="'Galaxy4-[efile].txt'" ftype="txt" />
+      <output name="ofile" file="VINYL_output1_test.tabular" ftype="tabular" />
       <output name="ovcfile" file="VINYL_output2_test.vcf" ftype="vcf" />
-      <output name="osummary" file="VINYL_output3_test" ftype="tabular" />
+      <output name="osummary" file="VINYL_output3_test.tabular" ftype="tabular" />
     </test>
   </tests>
   <help>
