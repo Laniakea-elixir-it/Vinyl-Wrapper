@@ -149,38 +149,15 @@
   </stdio>
   <tests>
     <test>
-      <param name="fileR" value="R.csv" ftype="csv" />
-      <param name="fileC" value="T.csv" ftype="csv" />
-      <!-- default values-->
-      <param name="score_DB_MIN" value="1" type="float" min="1"  max="20" />
-      <param name="score_DB_MAX" value="20" type="float" min="1"  max="20" />
-      <param name="score_RV_MIN" value="1" type="float" min="1"  max="20" />
-      <param name="score_RV_MAX" value="20" type="float" min="1"  max="20" />
-      <param name="score_FE_MIN" value="1" min="1"  max="20" type="float" />
-      <param name="score_FE_MAX" value="20" min="1"  max="20" type="float" />
-      <param name="score_NS_MIN" value="1" min="1" max="20" type="float" />
-      <param name="score_NS_MAX" value="20" min="1" max="20" type="float" />
-      <param name="score_OR_MIN" value="1" type="float" min="1"  max="20" />
-      <param name="score_OR_MAX" value="20" type="float" min="1"  max="20" />
-      <param name="score_eQ_MIN" value="1" min="1"  max="20" type="float" />
-      <param name="score_eQ_MAX" value="20" min="1"  max="20" type="float" />
-      <param name="score_AD_MIN" value="1" min="1"  max="20" type="float" />
-      <param name="score_AD_MAX" value="20" min="1"  max="20" type="float" />
-      <param name="score_T_MIN" value="1" min="1"  max="20" type="float" />
-      <param name="score_T_MAX" value="20" min="1"  max="20" type="float" />
-      <param name="score_GW_MIN" value="1" min="1"  max="20" type="float" />
-      <param name="score_GW_MAX" value="20" min="1"  max="20" type="float" />
-      <param name="score_M_MIN" value="1" min="1"  max="20" type="float" />
-      <param name="score_M_MAX" value="20" min="1"  max="20" type="float" />
-      <param name="score_R_MIN" value="1" min="1"  max="10" type="float" />
-      <param name="score_R_MAX" value="20" min="1"  max="20" type="float" />
-      <param name="score_SP_MIN" value="1" min="1"  max="10" type="float" />
-      <param name="score_SP_MAX" value="20" min="1"  max="20" type="float" />
-      <param name="nind" value="5"  type="integer" />
-      <param name="AF" value="0.0001" min="0" max="1" type="float" />
-      <param name="AD" type="text" value="T" />
-      <param name="XL" type="text" value="F" />
-      <output name="ofile" file="optimizer_output_test.tsv" ftype="tsv" />
+      <param name="fileR" value="sorrentino_annotated.vcf" ftype="vcf" />
+      <param name="fileC" value="TSI_annotated.vcf" ftype="vcf" />
+      <param name="lgenes" value="DCM_genes.tabular" ftype="tabular" />
+      <param name="qfile" value="qfile.txt" ftype="txt" />
+      <param name="kfile" value="kfile.txt" ftype="txt" />
+      <param name="efile" value="efile.txt" ftype="txt" />
+      <param name="sfile" value="sfile.txt" ftype="txt" />
+      <output name="ofile" file="output_optimizer.tsv" ftype="tsv" />
+      <output name="log" file="log.txt" ftype="txt" />
     </test>
   </tests>
   <help>
