@@ -149,8 +149,8 @@
   </stdio>
   <tests>
     <test>
-      <param name="fileR" value="sorrentino_annotated.vcf" ftype="vcf" />
-      <param name="fileC" value="TSI_annotated.vcf" ftype="vcf" />
+      <param name="fileR" value="TSI_annotated.vcf" ftype="vcf" />
+      <param name="fileC" value="sorrentino_annotated.vcf" ftype="vcf" />
       <param name="lgenes" value="DCM_genes.tabular" ftype="tabular" />
       <param name="qfile" value="qfile.txt" ftype="txt" />
       <param name="kfile" value="kfile.txt" ftype="txt" />
