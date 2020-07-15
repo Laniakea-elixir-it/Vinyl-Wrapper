@@ -11,8 +11,8 @@ These tools can be executed independently, or via an automated workflow which is
 -------------------
 ``Vinyl``
 -------------------
-|--------------|:----------------------------------------------------------------|
-| Description: | This wrapper provides the module of VINYL that perform score calculation. The program computes an aggregate score, which is based on an extensive collection of publicly available annoations, in order to identify/prioritize variants that are likely to be pathogenic or have a clinical significance. In order to derive an optimal cut off score for the variants, VINYL uses a strategy based on "survival analysis", where the pathogenicity score distribution of the affected individuals is compared with a matched cohort of unaffected individuals |
+
+| Description: | <span style="font-weight:normal">This wrapper provides the module of VINYL that perform score calculation. The program computes an aggregate score, which is based on an extensive collection of publicly available annoations, in order to identify/prioritize variants that are likely to be pathogenic or have a clinical significance. In order to derive an optimal cut off score for the variants, VINYL uses a strategy based on "survival analysis", where the pathogenicity score distribution of the affected individuals is compared with a matched cohort of unaffected individuals</span> |
 |--------------|:----------------------------------------------------------------|
 | **Galaxy Wrapper:** | [Wrapper VINYL](https://testtoolshed.g2.bx.psu.edu/view/elixir-it/vinyl/da94ac699bfa) |
 
@@ -20,10 +20,9 @@ These tools can be executed independently, or via an automated workflow which is
 ``Vinyl-Annovar``
 -------------------
 
-:Description: 
-        This tool will annotate variants using specified gene annotations, regions, and filtering databases. Input is a VCF dataset, and output is a table of annotations for each variant in the VCF dataset or a VCF dataset with the annotations in INFO fields
-
-:Galaxy Wrapper: `Wrapper VINYL-annovar <https://testtoolshed.g2.bx.psu.edu/view/elixir-it/vinyl_annovar/121eb1c88ec2>`
+| Description: | <span style="font-weight:normal">This tool will annotate variants using specified gene annotations, regions, and filtering databases. Input is a VCF dataset, and output is a table of annotations for each variant in the VCF dataset or a VCF dataset with the annotations in INFO fields</span> |
+|--------------|:---------------------------------------------------------------------------------------------|
+| **Galaxy Wrapper:** | [Wrapper VINYL-annovar](https://testtoolshed.g2.bx.psu.edu/view/elixir-it/vinyl_annovar/121eb1c88ec2) |`
 
 -------------------
 ``Vinyl-Survival``
