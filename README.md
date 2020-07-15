@@ -13,7 +13,7 @@ These tools can be executed independently, or via an automated workflow which is
 -------------------
 
 | Description: | This wrapper provides the module of VINYL that perform score calculation. The program computes an aggregate score, which is based on an extensive collection of publicly available annoations, in order to identify/prioritize variants that are likely to be pathogenic or have a clinical significance. In order to derive an optimal cut off score for the variants, VINYL uses a strategy based on "survival analysis", where the pathogenicity score distribution of the affected individuals is compared with a matched cohort of unaffected individuals |
-|--------------|:----------------------------------------------------------------|
+|:--------------:|:----------------------------------------------------------------|
 | **Galaxy Wrapper:** | [Wrapper VINYL](https://testtoolshed.g2.bx.psu.edu/view/elixir-it/vinyl/da94ac699bfa) |
 
 -------------------
@@ -21,7 +21,7 @@ These tools can be executed independently, or via an automated workflow which is
 -------------------
 
 | Description: | This tool will annotate variants using specified gene annotations, regions, and filtering databases. Input is a VCF dataset, and output is a table of annotations for each variant in the VCF dataset or a VCF dataset with the annotations in INFO fields |
-|--------------|:---------------------------------------------------------------------------------------------|
+|:--------------:|:---------------------------------------------------------------------------------------------|
 | **Galaxy Wrapper:** | [Wrapper VINYL-annovar](https://testtoolshed.g2.bx.psu.edu/view/elixir-it/vinyl_annovar/121eb1c88ec2) |
 
 --------------------
@@ -29,7 +29,7 @@ These tools can be executed independently, or via an automated workflow which is
 --------------------
 
 | Description: | This wrapper provides the module of VINYL that perform survival analysis for the identification of a pathogenicity score cut-off. Two input tabular files need to be provided, one containing VINIL scores and annotations on a cohort of affected individual, and one from a population of unaffected controls |
-|--------------|:---------------------|
+|:--------------:|:---------------------|
 | **Galaxy Wrapper:** | [Wrapper VINYL-survival](https://testtoolshed.g2.bx.psu.edu/view/elixir-it/vinyl_survival/978e043603f7) |
 
 ------------------
@@ -37,7 +37,7 @@ These tools can be executed independently, or via an automated workflow which is
 ------------------
 
 | Description | This wrapper provides the module of VINYL that perform score optimization. Two input VCF files need to be provided, one containing genetic variants from a cohort of affected individuals, and one from a population of unaffected controls |
-|-------------|:---------------------------------------------------------------------------------|
+|:-------------:|:---------------------------------------------------------------------------------|
 | **Galaxy Wrapper:** | [Wrapper VINYL-Optimizer](https://testtoolshed.g2.bx.psu.edu/view/elixir-it/vinyl_optimizer/4c6529d120c3) |
 
 -----------------
@@ -45,7 +45,7 @@ These tools can be executed independently, or via an automated workflow which is
 -----------------
 
 | Description: | This wrapper provides the module of VINYL that compares score distributions of single genes. Two input files need to be provided, both in tabular format. The first file must contain VINYL scores for affected individuals, the second, equivalent score for unaffected controls. Both files can be obtained by running VINYL on annovar-annotated vcf-files |
-|--------------|:----------------------------|
+|:--------------:|:----------------------------|
 | **Galaxy Wrapper:** | [Wrapper VINYL-Boxplot](https://testtoolshed.g2.bx.psu.edu/view/elixir-it/vinyl_boxplot/a68a11ce2abd) | 
 
 -----------------
@@ -53,7 +53,7 @@ These tools can be executed independently, or via an automated workflow which is
 -----------------
 
 | Description | This wrapper provides the module of VINYL that performs PCA analysis of score distribution to identify groups/subgroups of patients and/or samples. Two input files need to be provided, both in vcf format. The first file must contain VINYL scores for affected individuals, the second, equivalent score for unaffected controls |
-|-------------|:--------|
+|:-------------:|:--------|
 | **Galaxy Wrapper:**| [Wrapper VINYL-PCA](https://testtoolshed.g2.bx.psu.edu/view/elixir-it/vinyl_pca/460883beb10c) |`
 
 ---------------------
