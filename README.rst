@@ -74,3 +74,9 @@ The two workflows were implemented to run the module of VINYL that performs scor
 
 * The first workflow (vinyl_annot_and_optimization) performs on these data the score optimization
 * The second workflow (vinyl_annot_and_survival) performs on these data the survival analysis for the identification of a pathogenicity score cut-off
+
+.. image:: /home/martina/snap/skype/common/image_2020_06_10T14_49_32_714Z.png
+    :width: 200px
+    :align: center
+    :height: 100px
+    :alt: alternate text
