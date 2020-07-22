@@ -52,7 +52,7 @@ evalVINYL=function(x)
 
         	F=fisher.test(m,alternative="greater")
         	Fpv=F$p.value
-        	Fodds=F$estimate
+		Fodds=F$estimate
 		localScore=0.5*-log10(Fpv)+0.3*Fodds-0.2*posT #+0.175*posR-0.125*posT
 		if (localScore>score)
 		{
@@ -68,11 +68,14 @@ evalVINYL=function(x)
 	}
 	Command=system("rm *.ofile *.ovcfile *.osummary",intern=FALSE)
 	outV=paste(round(x,digits=2),collapse="\t");
+	if (surv1>60)
+	{
+		surv1=62;
+	}
 	cat(paste(outV,surv1,totR,surv2,totT,pval,rat,score,"\n",sep="\t"),file=ofile,append=T);
 	return(score*-1);
 }
 library(genalg)
 
-G=rbga(stringMin=minsV,stringMax=maxV,popSize=20,iters=25,evalFunc=evalVINYL)
+G=rbga(stringMin=minsV,stringMax=maxV,popSize=50,iters=50,evalFunc=evalVINYL)
 #cat(summary(G),file=ofile,append=T)	
-
