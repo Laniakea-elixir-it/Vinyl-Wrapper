@@ -72,5 +72,14 @@ VINYL workflows
 
 The two workflows were implemented to run the module of VINYL that performs score calculation to identify genetic variants from a cohort of affected individuals and from a population of unaffected control.
 
-* The first workflow (vinyl_annot_and_optimization) performs on these data the score optimization
-* The second workflow (vinyl_annot_and_survival) performs on these data the survival analysis for the identification of a pathogenicity score cut-off
+The first workflow (vinyl_annot_and_optimization) performs on these data the score optimization
+
+.. image:: _static/vinyl_annot_and_optimization.png
+   :scale: 50 %
+   :align: center
+
+The second workflow (vinyl_annot_and_survival) performs on these data the survival analysis for the identification of a pathogenicity score cut-off
+
+.. image:: _static/vinyl_annot_and_survival.png
+   :scale: 50 %
+   :align: center
