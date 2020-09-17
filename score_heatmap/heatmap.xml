@@ -1,0 +1,53 @@
+<tool id="heatmap" name="heatmap" version="1">
+  <description>This heatmap provides a simple and rapid way to compare the importance of the different components of the score associated of a set of variants that were scored by VINYL. </description>
+  <requirements>
+    <requirement type="package" >r-base</requirement>
+  </requirements>
+  <command> <![CDATA[
+	Rscript --vanilla $__tool_directory__/tool_heat_score.R 
+	
+	####INPUT
+	$fileI $cutoff
+
+	###OUTPUT
+	$ofile
+
+    ]]>
+  </command>
+  <inputs>
+	<param format="tabular,csv" name="fileI" type="data" label="scored_tab_file" help="VINYL Tabular output format file. Affected individuals "/>
+        <param name="cutoff" value="8" min="1" type="float" label="score_cutoff" help="Cut-Off score used for the identification of potentially pathogenic variants"/>
+
+  </inputs>
+  <outputs>
+    <data format="png" name="ofile" label="${tool.name} on ${on_string}: png "/>
+  </outputs>
+  <stdio>
+    <regex match="error"
+            source="stderr"
+            level="fatal"
+            description="Unknown error encountered" />
+  </stdio>
+  <tests>
+      <test>
+        <param name="fileI" value="heatmap-test.tabular" ftype="tabular" />
+        <param name="cutoff" value="30" ftype="float" />
+        <output name="ofile" file="heatmap_output.png" ftype="png" />
+      </test>
+  </tests>
+  <help>
+**What it does**
+VINYL is a software designed to assist in variant prioritization in medium-large cohort of patients. The program computes an aggregate score, which is based on an extensive collection of publicly available annotations, in order to identify/prioritize variants that are likely to be pathogenic or have a clinical significance. In order to derive an optimal cut off score for the variants, VINYL uses a strategy based on "survival analysis", where the pathogenicity score distribution of the affected individuals is compared with a matched cohort of unaffected individuals.
+To facilitate the usage of the software, VINYL is provided in the form of a public Galaxy instance, based on the Laniakea suite. To ensure the maximum level of security, VINYL uses Encrypted data volumes for the storage of the data.
+
+
+
+**Important Usage Note**
+This wrapper provides an utility that compares the "features" (i.e the score composition) of a set of variants, scored by VINYL. Ideally this method is best suited to compare a set/ensemble of genetic variants that show a score above a user predefined cut-off, in order to understand which type of the score features evaluated by VINYL were the most important in contributing to the score of each single variants. Clustering is used to display variants that have a similar "scoring composition", that is variants that are associated with similar annotations that display a score above a certain cut-off.
+This utility should be used to find "patterns" in variant scored by VINYL in order to understand, which specific component of the VINYL score (functional annotation element), was important for every distinct variant, but also to identify groups of variants that are associated with "equivalent" functional features. 
+To put it simple this tool should show 1) "Why" a variant passed the score cut off (i.e which single components of the score were important for that variant. 2) Which group of variants were associated with similar features.
+A brief discussion on how to read/interpret the output of this tools is also provided in the VINYL manual
+  </help>
+  <citations>
+  </citations>
+</tool>
